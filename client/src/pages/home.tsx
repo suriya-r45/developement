@@ -54,6 +54,8 @@ import jewelryImage1 from '@assets/image_1757151692791.png';
 import jewelryImage2 from '@assets/image_1757151723842.png';
 import jewelryImage3 from '@assets/image_1757151754440.png';
 import jewelryImage4 from '@assets/image_1757151794600.png';
+import jewelryImage5 from '@assets/image_1757151817054.png';
+import jewelryImage6 from '@assets/image_1757151835990.png';
 
 // Auto-sliding Jewelry Gallery Component
 function JewelrySlider() {
@@ -79,6 +81,16 @@ function JewelrySlider() {
       src: jewelryImage4,
       title: "Elegant Statement Necklace",
       description: "Luxury redefined with precious artistry"
+    },
+    {
+      src: jewelryImage5,
+      title: "Ornate Royal Chain",
+      description: "Magnificent detailing for the discerning connoisseur"
+    },
+    {
+      src: jewelryImage6,
+      title: "Luxury Display Collection",
+      description: "Curated excellence in precious jewelry artistry"
     }
   ];
 
