@@ -89,151 +89,25 @@ function RoyalSecondaryHomePage({
     <div className="min-h-screen relative overflow-hidden" 
          style={{
            background: `
-             radial-gradient(ellipse at top, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
-             radial-gradient(ellipse at bottom, rgba(147, 51, 234, 0.08) 0%, transparent 50%),
-             linear-gradient(135deg, #fefce8 0%, #fef3c7 25%, #fed7aa 50%, #fde68a 75%, #fef3c7 100%)
+             radial-gradient(ellipse at top, rgba(212, 175, 55, 0.2) 0%, transparent 60%),
+             radial-gradient(ellipse at bottom right, rgba(212, 175, 55, 0.15) 0%, transparent 40%),
+             radial-gradient(ellipse at bottom left, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+             linear-gradient(135deg, #2C004B 0%, #3d1a5b 20%, #2C004B 40%, #4a1f75 60%, #2C004B 80%, #3d1a5b 100%)
            `
          }}>
       {/* Animated Background Patterns */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" 
              style={{
-               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d97706' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+               backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.4'%3E%3Ccircle cx='60' cy='60' r='2'/%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='100' cy='40' r='1.5'/%3E%3Ccircle cx='30' cy='100' r='1'/%3E%3Ccircle cx='90' cy='90' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+               animation: 'float 20s ease-in-out infinite'
              }} />
       </div>
       
       <Header />
       
-      {/* Royal Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Premium Background with Glass Morphism */}
-        <div className="absolute inset-0">
-          {/* Gradient Layers */}
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-purple-900/10 to-yellow-900/20"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-amber-100/5"></div>
-          
-          {/* Floating Luxury Elements */}
-          <div className="absolute inset-0">
-            {[...Array(30)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: [0, 0.8, 0],
-                  scale: [0.8, 1.2, 0.8],
-                  rotate: [0, 180, 360],
-                }}
-                transition={{
-                  duration: 8 + Math.random() * 4,
-                  repeat: Infinity,
-                  delay: Math.random() * 5,
-                  ease: "easeInOut"
-                }}
-              >
-                {i % 3 === 0 ? (
-                  <div className="w-3 h-3 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full shadow-lg" />
-                ) : i % 3 === 1 ? (
-                  <div className="w-2 h-2 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full shadow-lg" />
-                ) : (
-                  <div className="w-1 h-1 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full shadow-lg" />
-                )}
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Premium Light Rays */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-yellow-400/20 via-transparent to-transparent transform -skew-x-12"></div>
-            <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-purple-400/20 via-transparent to-transparent transform skew-x-12"></div>
-            <div className="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-amber-400/15 via-transparent to-transparent"></div>
-          </div>
-        </div>
-
-        {/* Royal Content with Glass Effect */}
-        <div className="relative z-10 text-center px-4 max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="mb-12"
-          >
-            {/* Crown Icon with Glow */}
-            <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 1.5, delay: 0.3 }}
-              className="relative mb-8"
-            >
-              <div className="absolute inset-0 bg-yellow-400/30 rounded-full blur-xl scale-150"></div>
-              <Crown className="relative h-20 w-20 mx-auto text-amber-600 filter drop-shadow-2xl" />
-            </motion.div>
-
-            {/* Main Title with Enhanced Typography */}
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="text-5xl sm:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
-              style={{ fontFamily: 'Cormorant Garamond, serif' }}
-            >
-              <span className="bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-800 bg-clip-text text-transparent filter drop-shadow-sm">
-                Royal Palaniappa
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-purple-700 via-amber-600 to-yellow-700 bg-clip-text text-transparent text-4xl sm:text-5xl lg:text-6xl">
-                Collection
-              </span>
-            </motion.h1>
-
-            {/* Subtitle with Elegant Styling */}
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.7 }}
-              className="text-xl sm:text-3xl text-amber-800/80 mb-12 max-w-4xl mx-auto font-light leading-relaxed"
-              style={{ fontFamily: 'Cormorant Garamond, serif' }}
-            >
-              Where timeless elegance meets royal craftsmanship
-            </motion.p>
-          </motion.div>
-
-          {/* Premium Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.9 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-          >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button 
-                className="group relative overflow-hidden bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 hover:from-amber-700 hover:via-yellow-600 hover:to-amber-700 text-white font-semibold px-10 py-6 text-xl rounded-full shadow-2xl border border-yellow-400/30 backdrop-blur-sm"
-                onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                <Crown className="relative h-6 w-6 mr-3" />
-                <span className="relative">Explore Royal Collection</span>
-              </Button>
-            </motion.div>
-            
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button 
-                variant="outline"
-                className="group relative overflow-hidden border-2 border-amber-600/60 text-amber-800 hover:text-white font-semibold px-10 py-6 text-xl rounded-full bg-white/20 hover:bg-amber-600/90 backdrop-blur-md shadow-xl transition-all duration-300"
-                onClick={() => window.location.href = '/collections'}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-600/0 via-amber-600/20 to-amber-600/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                <Gem className="relative h-6 w-6 mr-3" />
-                <span className="relative">View All Collections</span>
-              </Button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Auto-Sliding Jewelry Gallery */}
+      <JewelrySlider />
 
       {/* Dynamic Home Sections - Admin Configured */}
       {homeSections.length > 0 && homeSections.map((section) => {
