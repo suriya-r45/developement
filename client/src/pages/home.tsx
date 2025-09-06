@@ -50,6 +50,199 @@ import broochesImage from '@assets/brooches_new.png';
 import bridalCollectionsImage from '@assets/bridal_new.png';
 import newArrivalsBackground from '@assets/image_1756713608055.png';
 import newArrivalsBackgroundNew from '@assets/new_arrivals_bg.png';
+import jewelryImage1 from '@assets/image_1757151692791.png';
+import jewelryImage2 from '@assets/image_1757151723842.png';
+import jewelryImage3 from '@assets/image_1757151754440.png';
+import jewelryImage4 from '@assets/image_1757151794600.png';
+
+// Auto-sliding Jewelry Gallery Component
+function JewelrySlider() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const jewelryImages = [
+    {
+      src: jewelryImage1,
+      title: "Exquisite Gold Necklace Set",
+      description: "Traditional craftsmanship meets modern elegance"
+    },
+    {
+      src: jewelryImage2,
+      title: "Royal Bridal Collection", 
+      description: "Timeless beauty for your special moments"
+    },
+    {
+      src: jewelryImage3,
+      title: "Heritage Gold Choker",
+      description: "Classic designs with contemporary appeal"
+    },
+    {
+      src: jewelryImage4,
+      title: "Elegant Statement Necklace",
+      description: "Luxury redefined with precious artistry"
+    }
+  ];
+
+  // Auto-slide functionality
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % jewelryImages.length);
+    }, 4000); // Change slide every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [jewelryImages.length]);
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Premium Background with Glass Morphism */}
+      <div className="absolute inset-0">
+        {/* Gradient Layers */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/15 via-purple-800/25 to-yellow-700/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/30 via-transparent to-yellow-600/10"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-transparent via-purple-500/5 to-transparent"></div>
+        
+        {/* Floating Luxury Elements */}
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: [0, 0.6, 0],
+                scale: [0.8, 1.2, 0.8],
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 8 + Math.random() * 4,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+                ease: "easeInOut"
+              }}
+            >
+              <div 
+                className="w-2 h-2 rounded-full shadow-lg" 
+                style={{background: i % 2 === 0 ? '#D4AF37' : 'rgba(147, 51, 234, 0.6)'}} 
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Premium Light Rays */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 left-1/4 w-px h-full transform -skew-x-12" style={{background: 'linear-gradient(to bottom, rgba(212, 175, 55, 0.3), transparent)'}}></div>
+          <div className="absolute top-0 right-1/4 w-px h-full transform skew-x-12" style={{background: 'linear-gradient(to bottom, rgba(147, 51, 234, 0.3), transparent)'}}></div>
+        </div>
+      </div>
+
+      {/* Main Slider Content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Text Content */}
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1 }}
+            className="text-center lg:text-left"
+          >
+            {/* Crown Icon with Glow */}
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 1.2 }}
+              className="relative mb-8 flex justify-center lg:justify-start"
+            >
+              <div className="absolute inset-0 rounded-full blur-xl scale-150" style={{background: 'rgba(212, 175, 55, 0.4)'}}></div>
+              <Crown className="relative h-16 w-16 filter drop-shadow-2xl" style={{color: '#D4AF37'}} />
+            </motion.div>
+
+            <motion.h1 
+              className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+              style={{ fontFamily: 'Cormorant Garamond, serif' }}
+            >
+              <span className="relative">
+                <span className="absolute inset-0 blur-sm" style={{background: 'linear-gradient(to right, #D4AF37, #F4E185, #D4AF37)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>
+                  {jewelryImages[currentSlide].title}
+                </span>
+                <span className="relative" style={{background: 'linear-gradient(to right, #D4AF37, #F4E185, #D4AF37)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: '0 0 30px rgba(212, 175, 55, 0.5)'}}>
+                  {jewelryImages[currentSlide].title}
+                </span>
+              </span>
+            </motion.h1>
+
+            <motion.p 
+              className="text-lg sm:text-2xl mb-8 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed"
+              style={{color: '#D4AF37', fontFamily: 'Cormorant Garamond, serif', textShadow: '0 0 20px rgba(212, 175, 55, 0.3)'}}
+            >
+              {jewelryImages[currentSlide].description}
+            </motion.p>
+
+            {/* Premium Action Button */}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                className="group relative overflow-hidden text-white font-semibold px-8 py-4 text-lg rounded-full shadow-2xl backdrop-blur-sm"
+                style={{background: 'linear-gradient(45deg, #D4AF37, #F4E185, #D4AF37)', border: '2px solid rgba(212, 175, 55, 0.8)', boxShadow: '0 8px 32px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'}}
+                onClick={() => window.location.href = '/collections'}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <Gem className="relative h-5 w-5 mr-3" />
+                <span className="relative">Explore Collection</span>
+              </Button>
+            </motion.div>
+          </motion.div>
+
+          {/* Image Slider */}
+          <div className="relative">
+            <motion.div
+              className="relative w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(44, 0, 75, 0.2))',
+                border: '2px solid rgba(212, 175, 55, 0.3)',
+                boxShadow: '0 20px 60px rgba(44, 0, 75, 0.4), inset 0 1px 0 rgba(212, 175, 55, 0.2)'
+              }}
+            >
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentSlide}
+                  src={jewelryImages[currentSlide].src}
+                  alt={jewelryImages[currentSlide].title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.8 }}
+                />
+              </AnimatePresence>
+              
+              {/* Elegant overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 via-transparent to-yellow-600/10 pointer-events-none"></div>
+            </motion.div>
+
+            {/* Slide Indicators */}
+            <div className="flex justify-center mt-6 space-x-3">
+              {jewelryImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className="w-3 h-3 rounded-full transition-all duration-300"
+                  style={{
+                    background: index === currentSlide ? '#D4AF37' : 'rgba(212, 175, 55, 0.3)',
+                    boxShadow: index === currentSlide ? '0 0 10px rgba(212, 175, 55, 0.5)' : 'none'
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 // Royal Secondary Home Page Component
 function RoyalSecondaryHomePage({ 
