@@ -375,6 +375,35 @@ function RoyalSecondaryHomePage({
       
       <Header />
       
+      {/* Brand Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="relative py-16 text-center"
+      >
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
+          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
+          style={{ fontFamily: 'Cormorant Garamond, serif' }}
+        >
+          <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 bg-clip-text text-transparent">
+            Palaniappa Jewellers
+          </span>
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+          className="text-lg md:text-xl text-amber-400/80 font-light tracking-wide"
+          style={{ fontFamily: 'Cormorant Garamond, serif' }}
+        >
+          Since 2025
+        </motion.p>
+      </motion.div>
+      
       {/* Auto-Sliding Jewelry Gallery */}
       <JewelrySlider />
 
