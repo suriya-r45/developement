@@ -23,7 +23,8 @@ import ringsImage from '@assets/new_rings.png';
 import { 
   CountdownTimer, 
   OfferBanner, 
-  SeasonalCollection
+  SeasonalCollection,
+  CountdownBannerSection
 } from '@/components/festival-components';
 
 interface HomeSectionWithItems extends HomeSection {
@@ -2315,8 +2316,40 @@ export default function Home() {
         <div className="w-full border-t border-gray-200 my-8"></div>
       )}
 
-      {/* Custom Admin Sections */}
-      {homeSections.length > 0 && homeSections.map((section) => {
+      {/* Custom Admin Sections - Priority ordered (countdown-banner sections first) */}
+      {homeSections.length > 0 && homeSections
+        .sort((a, b) => {
+          // Prioritize countdown-banner sections to appear first
+          if (a.layoutType === 'countdown-banner' && b.layoutType !== 'countdown-banner') return -1;
+          if (b.layoutType === 'countdown-banner' && a.layoutType !== 'countdown-banner') return 1;
+          // For other sections, maintain existing display order
+          return (a.displayOrder || 0) - (b.displayOrder || 0);
+        })
+        .map((section) => {
+        // Handle countdown-banner sections (pure visual banners with no products required)
+        if (section.layoutType === 'countdown-banner') {
+          return (
+            <CountdownBannerSection 
+              key={section.id}
+              section={{
+                id: section.id,
+                title: section.title,
+                subtitle: section.subtitle,
+                description: section.description,
+                layoutType: section.layoutType,
+                showCountdown: section.showCountdown,
+                countdownStartDate: section.countdownStartDate ? new Date(section.countdownStartDate) : undefined,
+                countdownEndDate: section.countdownEndDate ? new Date(section.countdownEndDate) : undefined,
+                countdownTitle: section.countdownTitle,
+                countdownDescription: section.countdownDescription,
+                festivalImage: section.festivalImage,
+                backgroundColor: section.backgroundColor,
+                textColor: section.textColor
+              }}
+            />
+          );
+        }
+        
         if (section.items.length === 0) return null;
         
         // Split layout rendering - Elegant Design matching reference image
