@@ -336,6 +336,15 @@ function RoyalSecondaryHomePage({
   allProducts: Product[];
   selectedCurrency: Currency;
 }) {
+  // State for filtering Today's Special Offer section
+  const [specialOfferFilters, setSpecialOfferFilters] = useState({
+    sortBy: 'newest',
+    category: 'all',
+    metalType: 'all',
+    priceRange: 'all',
+    inStock: false
+  });
+
   // Fetch custom home sections for royal display
   const { data: homeSections = [] } = useQuery<HomeSectionWithItems[]>({
     queryKey: ['/api/home-sections/public'],
@@ -362,8 +371,70 @@ function RoyalSecondaryHomePage({
     [royalSectionProducts, allProducts]
   );
 
+  // Function to apply filters to section products
+  const applySectionFilters = (products: any[], filters: typeof specialOfferFilters) => {
+    let filtered = [...products];
+
+    // Category filter
+    if (filters.category !== 'all') {
+      filtered = filtered.filter(product => 
+        product.category.toLowerCase() === filters.category.toLowerCase()
+      );
+    }
+
+    // Metal type filter
+    if (filters.metalType !== 'all') {
+      filtered = filtered.filter(product => 
+        product.metalType === filters.metalType
+      );
+    }
+
+    // Price range filter
+    if (filters.priceRange !== 'all') {
+      const [min, max] = filters.priceRange.split('-').map(p => p.replace('+', ''));
+      const minPrice = parseInt(min);
+      const maxPrice = max ? parseInt(max) : Infinity;
+      
+      filtered = filtered.filter(product => {
+        const price = parseFloat(product.priceInr || 0);
+        return price >= minPrice && (maxPrice === Infinity ? true : price <= maxPrice);
+      });
+    }
+
+    // Stock filter
+    if (filters.inStock) {
+      filtered = filtered.filter(product => product.stock > 0);
+    }
+
+    // Sort products
+    switch (filters.sortBy) {
+      case 'newest':
+        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        break;
+      case 'oldest':
+        filtered.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        break;
+      case 'price-low':
+        filtered.sort((a, b) => parseFloat(a.priceInr || 0) - parseFloat(b.priceInr || 0));
+        break;
+      case 'price-high':
+        filtered.sort((a, b) => parseFloat(b.priceInr || 0) - parseFloat(a.priceInr || 0));
+        break;
+      case 'name-asc':
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'name-desc':
+        filtered.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+    }
+
+    return filtered;
+  };
+
   return (
-    <div className="min-h-screen relative overflow-hidden bg-black">
+    <div className="min-h-screen relative overflow-hidden" style={{
+      background: 'linear-gradient(135deg, #8B4513 0%, #4B0082 30%, #663399 70%, #800080 100%)'
+    }}>
       {/* Animated Background Patterns */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" 
@@ -386,18 +457,16 @@ function RoyalSecondaryHomePage({
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
-          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
+          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500"
           style={{ fontFamily: 'Cormorant Garamond, serif' }}
         >
-          <span className="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 bg-clip-text text-transparent">
-            Palaniappa Jewellers
-          </span>
+          Palaniappa Jewellers
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-          className="text-lg md:text-xl text-amber-400/80 font-light tracking-wide"
+          className="text-lg md:text-xl text-white/90 font-light tracking-[0.2em] drop-shadow-lg"
           style={{ fontFamily: 'Cormorant Garamond, serif' }}
         >
           Since 2025
@@ -411,18 +480,27 @@ function RoyalSecondaryHomePage({
       {homeSections.length > 0 && homeSections.map((section) => {
         if (section.items.length === 0) return null;
         
-        const sectionProducts = section.items.map(item => {
+        let sectionProducts = section.items.map(item => {
           const product = allProducts.find(p => p.id === item.productId);
           return product ? { ...product, ...item } : null;
         }).filter(Boolean);
+
+        // Apply filters for Today's Special Offer section
+        if (section.title.toLowerCase().includes('today\'s special offer')) {
+          sectionProducts = applySectionFilters(sectionProducts, specialOfferFilters);
+        }
 
         if (sectionProducts.length === 0) return null;
 
         return (
           <section key={section.id} className="relative py-24 overflow-hidden">
-            {/* Section Background with Royal Black */}
+            {/* Section Background with Stylish Glass Effect */}
             <div className="absolute inset-0">
-              <div className="absolute inset-0 bg-black"></div>
+              <div className="absolute inset-0" style={{
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.1) 100%)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}></div>
               
               {/* Elegant Geometric Patterns */}
               <div className="absolute inset-0 opacity-5">
@@ -448,7 +526,7 @@ function RoyalSecondaryHomePage({
                     initial={{ width: 0 }}
                     whileInView={{ width: 60 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"
+                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-lg"
                   />
                   <motion.div
                     initial={{ scale: 0, rotate: -90 }}
@@ -456,13 +534,17 @@ function RoyalSecondaryHomePage({
                     transition={{ duration: 0.8, delay: 0.5 }}
                     className="mx-6 relative"
                   >
-                    <Crown className="relative h-16 w-16 text-amber-600" />
+                    <Crown className="relative h-20 w-20 text-transparent bg-clip-text" style={{
+                      background: 'linear-gradient(45deg, #fbbf24, #f59e0b, #d97706)',
+                      WebkitBackgroundClip: 'text',
+                      filter: 'drop-shadow(0 4px 8px rgba(251, 191, 36, 0.3))'
+                    }} />
                   </motion.div>
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: 60 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"
+                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent shadow-lg"
                   />
                 </div>
 
@@ -474,7 +556,7 @@ function RoyalSecondaryHomePage({
                   className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-8"
                   style={{ fontFamily: 'Cormorant Garamond, serif' }}
                 >
-                  <span className="bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-800 bg-clip-text text-transparent">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 font-bold tracking-wide">
                     {section.title}
                   </span>
                 </motion.h2>
@@ -487,13 +569,120 @@ function RoyalSecondaryHomePage({
                     transition={{ duration: 0.8, delay: 0.8 }}
                     className="max-w-4xl mx-auto"
                   >
-                    <p className="text-xl sm:text-2xl text-amber-800/70 font-light leading-relaxed"
+                    <p className="text-xl sm:text-2xl text-white/90 font-light leading-relaxed tracking-wide"
                        style={{ fontFamily: 'Cormorant Garamond, serif' }}>
                       {section.description}
                     </p>
                   </motion.div>
                 )}
               </motion.div>
+              
+              {/* Advanced Sort and Filter Options - Only for Today's Special Offer */}
+              {section.title.toLowerCase().includes('today\'s special offer') && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1.0 }}
+                  className="mb-12"
+                >
+                  <div className="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 p-8 shadow-2xl" style={{
+                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                  }}>
+                    <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-500 font-bold mb-6 text-xl tracking-wide">Advanced Filters & Sort</h3>
+                    
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                      {/* Sort Options */}
+                      <div>
+                        <label className="block text-white/80 text-sm mb-3 font-medium tracking-wide">Sort By</label>
+                        <select 
+                          value={specialOfferFilters.sortBy}
+                          onChange={(e) => setSpecialOfferFilters(prev => ({ ...prev, sortBy: e.target.value }))}
+                          className="w-full bg-white/10 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition-all duration-300 hover:bg-white/15"
+                        >
+                          <option value="newest">Newest First</option>
+                          <option value="oldest">Oldest First</option>
+                          <option value="price-low">Price: Low to High</option>
+                          <option value="price-high">Price: High to Low</option>
+                          <option value="name-asc">Name: A to Z</option>
+                          <option value="name-desc">Name: Z to A</option>
+                        </select>
+                      </div>
+                      
+                      {/* Category Filter */}
+                      <div>
+                        <label className="block text-white/80 text-sm mb-3 font-medium tracking-wide">Category</label>
+                        <select 
+                          value={specialOfferFilters.category}
+                          onChange={(e) => setSpecialOfferFilters(prev => ({ ...prev, category: e.target.value }))}
+                          className="w-full bg-white/10 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition-all duration-300 hover:bg-white/15"
+                        >
+                          <option value="all">All Categories</option>
+                          <option value="rings">Rings</option>
+                          <option value="necklaces">Necklaces</option>
+                          <option value="earrings">Earrings</option>
+                          <option value="bracelets">Bracelets</option>
+                          <option value="bangles">Bangles</option>
+                          <option value="pendants">Pendants</option>
+                        </select>
+                      </div>
+                      
+                      {/* Metal Type Filter */}
+                      <div>
+                        <label className="block text-white/80 text-sm mb-3 font-medium tracking-wide">Metal Type</label>
+                        <select 
+                          value={specialOfferFilters.metalType}
+                          onChange={(e) => setSpecialOfferFilters(prev => ({ ...prev, metalType: e.target.value }))}
+                          className="w-full bg-white/10 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition-all duration-300 hover:bg-white/15"
+                        >
+                          <option value="all">All Metals</option>
+                          <option value="GOLD">Gold</option>
+                          <option value="SILVER">Silver</option>
+                          <option value="DIAMOND">Diamond</option>
+                          <option value="PLATINUM">Platinum</option>
+                          <option value="GEMSTONE">Gemstone</option>
+                        </select>
+                      </div>
+                      
+                      {/* Price Range Filter */}
+                      <div>
+                        <label className="block text-white/80 text-sm mb-3 font-medium tracking-wide">Price Range</label>
+                        <select 
+                          value={specialOfferFilters.priceRange}
+                          onChange={(e) => setSpecialOfferFilters(prev => ({ ...prev, priceRange: e.target.value }))}
+                          className="w-full bg-white/10 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition-all duration-300 hover:bg-white/15"
+                        >
+                          <option value="all">All Prices</option>
+                          <option value="0-5000">Under ₹5,000</option>
+                          <option value="5000-15000">₹5,000 - ₹15,000</option>
+                          <option value="15000-50000">₹15,000 - ₹50,000</option>
+                          <option value="50000-100000">₹50,000 - ₹1,00,000</option>
+                          <option value="100000+">Above ₹1,00,000</option>
+                        </select>
+                      </div>
+                      
+                      {/* Stock Filter */}
+                      <div className="flex items-center pt-6">
+                        <label className="flex items-center space-x-2 text-black/80 cursor-pointer">
+                          <input 
+                            type="checkbox"
+                            checked={specialOfferFilters.inStock}
+                            onChange={(e) => setSpecialOfferFilters(prev => ({ ...prev, inStock: e.target.checked }))}
+                            className="rounded border-amber-400/30 bg-black/50 text-amber-400 focus:ring-amber-400 focus:ring-offset-0"
+                          />
+                          <span className="text-sm">In Stock Only</span>
+                        </label>
+                      </div>
+                    </div>
+                    
+                    {/* Results Count */}
+                    <div className="mt-4 pt-4 border-t border-amber-400/20">
+                      <p className="text-amber-300/60 text-sm">
+                        Showing {sectionProducts.length} product{sectionProducts.length !== 1 ? 's' : ''}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
               
               {/* Products Grid with Enhanced Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
