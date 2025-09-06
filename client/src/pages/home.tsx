@@ -86,78 +86,151 @@ function RoyalSecondaryHomePage({
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50">
+    <div className="min-h-screen relative overflow-hidden" 
+         style={{
+           background: `
+             radial-gradient(ellipse at top, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+             radial-gradient(ellipse at bottom, rgba(147, 51, 234, 0.08) 0%, transparent 50%),
+             linear-gradient(135deg, #fefce8 0%, #fef3c7 25%, #fed7aa 50%, #fde68a 75%, #fef3c7 100%)
+           `
+         }}>
+      {/* Animated Background Patterns */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" 
+             style={{
+               backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d97706' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+             }} />
+      </div>
+      
       <Header />
       
       {/* Royal Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-amber-900 to-yellow-800">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20"></div>
-          {/* Floating Royal Elements */}
+        {/* Premium Background with Glass Morphism */}
+        <div className="absolute inset-0">
+          {/* Gradient Layers */}
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 via-purple-900/10 to-yellow-900/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-amber-100/5"></div>
+          
+          {/* Floating Luxury Elements */}
           <div className="absolute inset-0">
-            {[...Array(20)].map((_, i) => (
+            {[...Array(30)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-2 h-2 bg-yellow-400 rounded-full opacity-60"
+                className="absolute"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
                 }}
-                animate={{
-                  y: [0, -20, 0],
-                  opacity: [0.3, 0.8, 0.3],
-                  scale: [1, 1.2, 1],
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: [0, 0.8, 0],
+                  scale: [0.8, 1.2, 0.8],
+                  rotate: [0, 180, 360],
                 }}
                 transition={{
-                  duration: 3 + Math.random() * 2,
+                  duration: 8 + Math.random() * 4,
                   repeat: Infinity,
-                  delay: Math.random() * 2,
+                  delay: Math.random() * 5,
+                  ease: "easeInOut"
                 }}
-              />
+              >
+                {i % 3 === 0 ? (
+                  <div className="w-3 h-3 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full shadow-lg" />
+                ) : i % 3 === 1 ? (
+                  <div className="w-2 h-2 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full shadow-lg" />
+                ) : (
+                  <div className="w-1 h-1 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full shadow-lg" />
+                )}
+              </motion.div>
             ))}
+          </div>
+
+          {/* Premium Light Rays */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-yellow-400/20 via-transparent to-transparent transform -skew-x-12"></div>
+            <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-purple-400/20 via-transparent to-transparent transform skew-x-12"></div>
+            <div className="absolute top-0 left-1/2 w-px h-full bg-gradient-to-b from-amber-400/15 via-transparent to-transparent"></div>
           </div>
         </div>
 
-        {/* Royal Content */}
-        <div className="relative z-10 text-center text-white px-4 max-w-6xl mx-auto">
+        {/* Royal Content with Glass Effect */}
+        <div className="relative z-10 text-center px-4 max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="mb-12"
+          >
+            {/* Crown Icon with Glow */}
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 1.5, delay: 0.3 }}
+              className="relative mb-8"
+            >
+              <div className="absolute inset-0 bg-yellow-400/30 rounded-full blur-xl scale-150"></div>
+              <Crown className="relative h-20 w-20 mx-auto text-amber-600 filter drop-shadow-2xl" />
+            </motion.div>
+
+            {/* Main Title with Enhanced Typography */}
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="text-5xl sm:text-7xl lg:text-8xl font-bold mb-8 leading-tight"
+              style={{ fontFamily: 'Cormorant Garamond, serif' }}
+            >
+              <span className="bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-800 bg-clip-text text-transparent filter drop-shadow-sm">
+                Royal Palaniappa
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-purple-700 via-amber-600 to-yellow-700 bg-clip-text text-transparent text-4xl sm:text-5xl lg:text-6xl">
+                Collection
+              </span>
+            </motion.h1>
+
+            {/* Subtitle with Elegant Styling */}
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.7 }}
+              className="text-xl sm:text-3xl text-amber-800/80 mb-12 max-w-4xl mx-auto font-light leading-relaxed"
+              style={{ fontFamily: 'Cormorant Garamond, serif' }}
+            >
+              Where timeless elegance meets royal craftsmanship
+            </motion.p>
+          </motion.div>
+
+          {/* Premium Action Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="mb-8"
+            transition={{ duration: 1, delay: 0.9 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <Crown className="h-16 w-16 mx-auto mb-6 text-yellow-400" />
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 bg-clip-text text-transparent" 
-                style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-              Royal Palaniappa Collection
-            </h1>
-            <p className="text-xl sm:text-2xl text-yellow-100 mb-8 max-w-3xl mx-auto font-light">
-              Experience the majesty of premium jewelry crafted for royalty
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Button 
-              className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-semibold px-8 py-4 text-lg rounded-full border-2 border-yellow-400 shadow-lg transform hover:scale-105 transition-all duration-300"
-              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-            >
-              <Crown className="h-5 w-5 mr-2" />
-              Explore Royal Collection
-            </Button>
-            <Button 
-              variant="outline"
-              className="border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-semibold px-8 py-4 text-lg rounded-full bg-transparent backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
-              onClick={() => window.location.href = '/collections'}
-            >
-              <Gem className="h-5 w-5 mr-2" />
-              View All Collections
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                className="group relative overflow-hidden bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 hover:from-amber-700 hover:via-yellow-600 hover:to-amber-700 text-white font-semibold px-10 py-6 text-xl rounded-full shadow-2xl border border-yellow-400/30 backdrop-blur-sm"
+                onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <Crown className="relative h-6 w-6 mr-3" />
+                <span className="relative">Explore Royal Collection</span>
+              </Button>
+            </motion.div>
+            
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button 
+                variant="outline"
+                className="group relative overflow-hidden border-2 border-amber-600/60 text-amber-800 hover:text-white font-semibold px-10 py-6 text-xl rounded-full bg-white/20 hover:bg-amber-600/90 backdrop-blur-md shadow-xl transition-all duration-300"
+                onClick={() => window.location.href = '/collections'}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-600/0 via-amber-600/20 to-amber-600/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                <Gem className="relative h-6 w-6 mr-3" />
+                <span className="relative">View All Collections</span>
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -174,39 +247,115 @@ function RoyalSecondaryHomePage({
         if (sectionProducts.length === 0) return null;
 
         return (
-          <section key={section.id} className="py-20 bg-gradient-to-br from-amber-50 to-yellow-100">
-            <div className="container mx-auto px-4">
+          <section key={section.id} className="relative py-24 overflow-hidden">
+            {/* Section Background with Glass Morphism */}
+            <div className="absolute inset-0">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-amber-50/80 to-yellow-100/60 backdrop-blur-sm"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-amber-100/20 via-transparent to-white/10"></div>
+              
+              {/* Elegant Geometric Patterns */}
+              <div className="absolute inset-0 opacity-5">
+                <div className="absolute inset-0" 
+                     style={{
+                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d97706' fill-opacity='0.4'%3E%3Cpolygon points='50,0 60,40 100,50 60,60 50,100 40,60 0,50 40,40'/%3E%3C/g%3E%3C/svg%3E")`,
+                     }} />
+              </div>
+            </div>
+
+            <div className="relative container mx-auto px-4">
+              {/* Section Header with Premium Styling */}
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="text-center mb-16"
+                transition={{ duration: 1, ease: "easeOut" }}
+                viewport={{ once: true }}
+                className="text-center mb-20"
               >
-                <Crown className="h-12 w-12 mx-auto mb-6 text-amber-600" />
-                <h2 className="text-4xl sm:text-5xl font-bold text-amber-900 mb-6" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-                  {section.title}
-                </h2>
+                {/* Decorative Elements */}
+                <div className="flex items-center justify-center mb-8">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: 60 }}
+                    transition={{ duration: 1, delay: 0.3 }}
+                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"
+                  />
+                  <motion.div
+                    initial={{ scale: 0, rotate: -90 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                    className="mx-6 relative"
+                  >
+                    <div className="absolute inset-0 bg-amber-400/30 rounded-full blur-lg scale-150"></div>
+                    <Crown className="relative h-16 w-16 text-amber-600 filter drop-shadow-lg" />
+                  </motion.div>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: 60 }}
+                    transition={{ duration: 1, delay: 0.3 }}
+                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"
+                  />
+                </div>
+
+                {/* Section Title */}
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                  className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-8"
+                  style={{ fontFamily: 'Cormorant Garamond, serif' }}
+                >
+                  <span className="bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-800 bg-clip-text text-transparent">
+                    {section.title}
+                  </span>
+                </motion.h2>
+
+                {/* Section Description */}
                 {section.description && (
-                  <p className="text-xl text-amber-700 max-w-3xl mx-auto">
-                    {section.description}
-                  </p>
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                    className="max-w-4xl mx-auto"
+                  >
+                    <p className="text-xl sm:text-2xl text-amber-800/70 font-light leading-relaxed"
+                       style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                      {section.description}
+                    </p>
+                  </motion.div>
                 )}
               </motion.div>
               
+              {/* Products Grid with Enhanced Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {sectionProducts.map((product, index) => (
                   <motion.div
                     key={product.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-amber-200 hover:border-amber-400 transform hover:scale-105 transition-all duration-300"
+                    initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: index * 0.1,
+                      ease: "easeOut" 
+                    }}
+                    viewport={{ once: true }}
+                    whileHover={{ 
+                      y: -8,
+                      scale: 1.02,
+                      transition: { duration: 0.3 }
+                    }}
+                    className="group relative"
                   >
-                    <ProductCard
-                      product={product}
-                      currency={selectedCurrency}
-                      showActions={true}
-                    />
+                    {/* Card Glow Effect */}
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 rounded-3xl opacity-0 group-hover:opacity-20 blur transition-all duration-500"></div>
+                    
+                    {/* Product Card Container */}
+                    <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-amber-200/50 overflow-hidden group-hover:border-amber-400/60 transition-all duration-500">
+                      <ProductCard
+                        product={product}
+                        currency={selectedCurrency}
+                        showActions={true}
+                      />
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -217,37 +366,52 @@ function RoyalSecondaryHomePage({
 
       {/* Fallback: Show featured products if no sections configured */}
       {homeSections.length === 0 && featuredProducts.length > 0 && (
-        <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-100">
-          <div className="container mx-auto px-4">
+        <section className="relative py-24 overflow-hidden">
+          {/* Premium Fallback Background */}
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-50/90 via-yellow-100/70 to-orange-50/80"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-amber-50/30"></div>
+          </div>
+
+          <div className="relative container mx-auto px-4">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center mb-16"
+              transition={{ duration: 1 }}
+              viewport={{ once: true }}
+              className="text-center mb-20"
             >
-              <Crown className="h-12 w-12 mx-auto mb-6 text-amber-600" />
-              <h2 className="text-4xl sm:text-5xl font-bold text-amber-900 mb-6" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-                Crown Jewels Collection
-              </h2>
-              <p className="text-xl text-amber-700 max-w-3xl mx-auto">
-                Configure royal page sections in admin to customize this display
-              </p>
+              {/* Admin Notice with Elegant Styling */}
+              <div className="mb-12 p-8 bg-white/60 backdrop-blur-sm rounded-3xl border border-amber-200/50 max-w-4xl mx-auto">
+                <Crown className="h-16 w-16 mx-auto mb-6 text-amber-600" />
+                <h2 className="text-4xl sm:text-5xl font-bold text-amber-900 mb-4" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  Crown Jewels Collection
+                </h2>
+                <p className="text-lg text-amber-800/70 font-light" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  Configure royal page sections in the admin dashboard to showcase your premium collections
+                </p>
+              </div>
             </motion.div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {featuredProducts.map((product, index) => (
                 <motion.div
                   key={product.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-amber-200 hover:border-amber-400 transform hover:scale-105 transition-all duration-300"
+                  initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group relative"
                 >
-                  <ProductCard
-                    product={product}
-                    currency={selectedCurrency}
-                    showActions={true}
-                  />
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 rounded-3xl opacity-0 group-hover:opacity-20 blur transition-all duration-500"></div>
+                  <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-amber-200/50 overflow-hidden">
+                    <ProductCard
+                      product={product}
+                      currency={selectedCurrency}
+                      showActions={true}
+                    />
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -256,38 +420,116 @@ function RoyalSecondaryHomePage({
       )}
 
       {/* Royal Call to Action */}
-      <section className="py-20 bg-gradient-to-br from-amber-900 via-yellow-900 to-orange-900 text-white">
-        <div className="container mx-auto px-4 text-center">
+      <section className="relative py-32 overflow-hidden">
+        {/* Premium Background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-900 via-purple-900/80 to-amber-800"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+          
+          {/* Floating Luxury Particles */}
+          <div className="absolute inset-0">
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-4 h-4 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full opacity-30"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -30, 0],
+                  opacity: [0.2, 0.6, 0.2],
+                  scale: [0.8, 1.4, 0.8],
+                }}
+                transition={{
+                  duration: 6 + Math.random() * 3,
+                  repeat: Infinity,
+                  delay: Math.random() * 3,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Premium Light Effects */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-yellow-400/30 via-transparent to-transparent transform -rotate-12"></div>
+            <div className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-amber-400/30 via-transparent to-transparent transform rotate-12"></div>
+          </div>
+        </div>
+
+        <div className="relative container mx-auto px-4 text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="max-w-5xl mx-auto"
           >
-            <Crown className="h-16 w-16 mx-auto mb-8 text-yellow-400" />
-            <h2 className="text-4xl sm:text-5xl font-bold mb-6" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
-              Join the Royal Legacy
-            </h2>
-            <p className="text-xl mb-8 text-yellow-100 max-w-2xl mx-auto">
+            {/* Crown with Enhanced Glow */}
+            <motion.div
+              initial={{ scale: 0, rotate: -90 }}
+              whileInView={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="relative mb-12"
+            >
+              <div className="absolute inset-0 bg-yellow-400/40 rounded-full blur-2xl scale-200"></div>
+              <Crown className="relative h-24 w-24 mx-auto text-yellow-400 filter drop-shadow-2xl" />
+            </motion.div>
+
+            {/* Premium Title */}
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-8 text-white"
+              style={{ fontFamily: 'Cormorant Garamond, serif' }}
+            >
+              <span className="bg-gradient-to-r from-yellow-300 via-amber-200 to-yellow-400 bg-clip-text text-transparent">
+                Join the Royal Legacy
+              </span>
+            </motion.h2>
+
+            {/* Elegant Description */}
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.7 }}
+              className="text-xl sm:text-2xl mb-12 text-amber-100/90 max-w-3xl mx-auto font-light leading-relaxed"
+              style={{ fontFamily: 'Cormorant Garamond, serif' }}
+            >
               Experience the finest craftsmanship and timeless elegance that has adorned royalty for generations
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-semibold px-8 py-4 text-lg rounded-full transform hover:scale-105 transition-all duration-300"
-                onClick={() => window.location.href = '/collections'}
-              >
-                <Crown className="h-5 w-5 mr-2" />
-                Shop Royal Collection
-              </Button>
-              <Button 
-                variant="outline"
-                className="border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black font-semibold px-8 py-4 text-lg rounded-full bg-transparent backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
-                onClick={() => window.location.href = '/contact'}
-              >
-                <Users className="h-5 w-5 mr-2" />
-                Contact Royal Advisors
-              </Button>
-            </div>
+            </motion.p>
+
+            {/* Premium Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.9 }}
+              className="flex flex-col sm:flex-row gap-6 justify-center"
+            >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  className="group relative overflow-hidden bg-gradient-to-r from-yellow-500 via-amber-400 to-yellow-500 hover:from-yellow-400 hover:via-amber-300 hover:to-yellow-400 text-amber-900 font-bold px-12 py-6 text-xl rounded-full shadow-2xl border border-yellow-300/50"
+                  onClick={() => window.location.href = '/collections'}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                  <Crown className="relative h-6 w-6 mr-3" />
+                  <span className="relative">Shop Royal Collection</span>
+                </Button>
+              </motion.div>
+              
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  variant="outline"
+                  className="group relative overflow-hidden border-2 border-yellow-300/60 text-yellow-200 hover:text-amber-900 font-bold px-12 py-6 text-xl rounded-full bg-white/10 hover:bg-yellow-300/90 backdrop-blur-md shadow-2xl transition-all duration-300"
+                  onClick={() => window.location.href = '/contact'}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-300/0 via-yellow-300/20 to-yellow-300/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                  <Users className="relative h-6 w-6 mr-3" />
+                  <span className="relative">Contact Royal Advisors</span>
+                </Button>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
