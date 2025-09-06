@@ -185,9 +185,15 @@ function ProductManagementDialog({ products, onClose }: { products: Product[], o
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-3 lg:gap-2">
+                    <div className="flex flex-col sm:flex-row gap-4 lg:gap-4">
                       {/* Active/Inactive Toggle */}
-                      <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg">
+                      <div 
+                        className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                      >
                         <Button
                           variant={product.isActive ? "default" : "secondary"}
                           size="sm"
@@ -209,7 +215,13 @@ function ProductManagementDialog({ products, onClose }: { products: Product[], o
                       </div>
 
                       {/* Secondary Home Page Toggle */}
-                      <div className="flex items-center gap-2 px-3 py-2 bg-purple-50 rounded-lg">
+                      <div 
+                        className="flex items-center gap-2 px-3 py-2 bg-purple-50 rounded-lg"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                      >
                         <Button
                           variant={product.isFeatured ? "default" : "secondary"}
                           size="sm"
