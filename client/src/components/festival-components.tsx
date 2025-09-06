@@ -5,6 +5,23 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+// Type for home section with countdown banner
+interface HomeSectionWithCountdown {
+  id: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  layoutType: string;
+  showCountdown: boolean;
+  countdownStartDate?: Date;
+  countdownEndDate?: Date;
+  countdownTitle?: string;
+  countdownDescription?: string;
+  festivalImage?: string;
+  backgroundColor?: string;
+  textColor?: string;
+}
+
 interface CountdownTimerProps {
   targetDate: Date;
   title: string;
@@ -430,5 +447,233 @@ export function FestivalOffers({ offers }: FestivalOffersProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+// Pure Countdown & Festival Banner Section Component (No Products)
+export function CountdownBannerSection({ section }: { section: HomeSectionWithCountdown }) {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  // Countdown logic
+  useEffect(() => {
+    if (!section.showCountdown || !section.countdownEndDate) return;
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const target = new Date(section.countdownEndDate!).getTime();
+      const difference = target - now;
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [section.countdownEndDate, section.showCountdown]);
+
+  return (
+    <section 
+      className="relative min-h-screen w-full overflow-hidden flex items-center justify-center"
+      data-testid={`countdown-banner-${section.title.toLowerCase().replace(/\s+/g, '-')}`}
+      style={{
+        backgroundColor: section.backgroundColor || '#2a1810',
+        color: section.textColor || '#ffffff'
+      }}
+    >
+      {/* High-Quality Background Image */}
+      {section.festivalImage && (
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ 
+            backgroundImage: `url(${section.festivalImage})`,
+            backgroundAttachment: 'fixed'
+          }}
+        />
+      )}
+
+      {/* Elegant Overlay for Better Text Readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-black/60" />
+
+      {/* Content Layer */}
+      <div className="relative z-10 container mx-auto px-4 text-center">
+        
+        {/* Festival Badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-8 py-4 mb-12"
+        >
+          <Sparkles className="w-6 h-6 text-yellow-300" />
+          <span className="text-xl font-semibold">Festival Special</span>
+          <Sparkles className="w-6 h-6 text-yellow-300" />
+        </motion.div>
+
+        {/* Main Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="text-6xl md:text-8xl lg:text-9xl font-light mb-8 leading-tight"
+          style={{ 
+            fontFamily: 'Playfair Display, serif',
+            textShadow: '0 4px 20px rgba(0,0,0,0.5)'
+          }}
+        >
+          {section.title}
+        </motion.h1>
+
+        {/* Subtitle */}
+        {section.subtitle && (
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="text-2xl md:text-4xl lg:text-5xl font-light mb-12 opacity-90"
+            style={{ fontFamily: 'Playfair Display, serif' }}
+          >
+            {section.subtitle}
+          </motion.p>
+        )}
+
+        {/* Description */}
+        {section.description && (
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            className="text-xl md:text-2xl font-light mb-16 opacity-80 max-w-4xl mx-auto leading-relaxed"
+          >
+            {section.description}
+          </motion.p>
+        )}
+
+        {/* Countdown Timer */}
+        {section.showCountdown && section.countdownEndDate && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.9 }}
+            className="mb-16"
+          >
+            {/* Countdown Title */}
+            {section.countdownTitle && (
+              <div className="flex items-center justify-center gap-3 mb-8">
+                <Clock className="w-8 h-8 text-yellow-300" />
+                <h2 className="text-3xl md:text-4xl font-semibold">
+                  {section.countdownTitle}
+                </h2>
+              </div>
+            )}
+
+            {/* Countdown Description */}
+            {section.countdownDescription && (
+              <p className="text-lg md:text-xl opacity-80 mb-12 max-w-2xl mx-auto">
+                {section.countdownDescription}
+              </p>
+            )}
+
+            {/* Countdown Display */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto">
+              {[
+                { value: timeLeft.days, label: 'Days' },
+                { value: timeLeft.hours, label: 'Hours' },
+                { value: timeLeft.minutes, label: 'Minutes' },
+                { value: timeLeft.seconds, label: 'Seconds' }
+              ].map((item, index) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 1.1 + (index * 0.1) }}
+                  className="text-center"
+                >
+                  <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl p-6 md:p-8 mb-4 shadow-2xl">
+                    <motion.div 
+                      key={item.value}
+                      initial={{ scale: 1.2 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-4xl md:text-6xl lg:text-7xl font-bold"
+                      style={{ fontFamily: 'Playfair Display, serif' }}
+                    >
+                      {String(item.value).padStart(2, '0')}
+                    </motion.div>
+                  </div>
+                  <div className="text-lg md:text-xl font-semibold uppercase tracking-wider opacity-90">
+                    {item.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Call-to-Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.3 }}
+          className="flex flex-col sm:flex-row gap-6 justify-center"
+        >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button 
+              className="group relative overflow-hidden bg-gradient-to-r from-yellow-500 via-amber-400 to-yellow-500 hover:from-yellow-400 hover:via-amber-300 hover:to-yellow-400 text-amber-900 font-bold px-12 py-6 text-xl rounded-full shadow-2xl border border-yellow-300/50"
+              onClick={() => window.location.href = '/collections'}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+              <Crown className="relative h-6 w-6 mr-3" />
+              <span className="relative">Explore Collection</span>
+            </Button>
+          </motion.div>
+          
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button 
+              variant="outline"
+              className="border-2 border-white/50 text-white hover:bg-white/10 backdrop-blur-sm font-bold px-12 py-6 text-xl rounded-full shadow-2xl"
+            >
+              <Gift className="h-6 w-6 mr-3" />
+              Special Offers
+            </Button>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Decorative Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-white/30 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              opacity: [0.3, 1, 0.3],
+              scale: [0.5, 1, 0.5],
+              y: [0, -20, 0],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 3,
+            }}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
