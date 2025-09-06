@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "web", "postgresql-16"]
+modules = ["nodejs-20", "web"]
 run = "npm run dev"
 hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
@@ -8,7 +8,7 @@ packages = ["cairo", "pango", "libjpeg", "giflib", "librsvg", "pixman"]
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["npm", "run", "start"]
+run = ["JWT_SECRET=0f0736811f0ed306da3666823660357d768d41295072a13432a00920bdd5385b", "npm", "run", "start"]
 build = ["npm", "run", "build"]
 
 [[ports]]
@@ -39,7 +39,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "JWT_SECRET=92538f54766fc263d5993bc7f3697055bb5735a19172450ef1e0cb0a0f09b6e0 npm run dev"
+args = "JWT_SECRET=0f0736811f0ed306da3666823660357d768d41295072a13432a00920bdd5385b npm run dev"
 waitForPort = 5000
 
 [agent]
