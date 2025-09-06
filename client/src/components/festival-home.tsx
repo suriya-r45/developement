@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { Product } from '@shared/schema';
@@ -5,6 +6,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 import ProductCard from '@/components/product-card';
 import WhatsAppFloat from '@/components/whatsapp-float';
+import { Currency } from '@/lib/currency';
 import { 
   FestivalHero, 
   CountdownTimer, 
@@ -104,28 +106,35 @@ const festivalData = {
 };
 
 export default function FestivalHomePage() {
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(Currency.INR);
+
   // Fetch products for featured sections
   const { data: allProducts = [] } = useQuery({
     queryKey: ['/api/products'],
-    queryFn: () => apiRequest<Product[]>('/api/products')
+    queryFn: () => apiRequest('/api/products')
   });
 
-  // Filter products for festival sections
-  const featuredProducts = allProducts
+  // Ensure products is an array and filter for festival sections
+  const products = Array.isArray(allProducts) ? allProducts as Product[] : [];
+  
+  const featuredProducts = products
     .filter(product => product.isFeatured)
     .slice(0, 8);
 
-  const newArrivalProducts = allProducts
+  const newArrivalProducts = products
     .filter(product => product.isNewArrival)
     .slice(0, 6);
 
-  const goldProducts = allProducts
+  const goldProducts = products
     .filter(product => product.metalType === 'GOLD' || product.metalType === 'GOLD_18K' || product.metalType === 'GOLD_22K')
     .slice(0, 8);
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header 
+        selectedCurrency={selectedCurrency} 
+        onCurrencyChange={setSelectedCurrency} 
+      />
       
       {/* Festival Hero Section */}
       <FestivalHero
@@ -208,7 +217,7 @@ export default function FestivalHomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <ProductCard product={product} />
+                <ProductCard product={product} currency={selectedCurrency} />
               </motion.div>
             ))}
           </div>
@@ -242,7 +251,7 @@ export default function FestivalHomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <ProductCard product={product} />
+                <ProductCard product={product} currency={selectedCurrency} />
               </motion.div>
             ))}
           </div>
@@ -276,7 +285,7 @@ export default function FestivalHomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <ProductCard product={product} />
+                <ProductCard product={product} currency={selectedCurrency} />
               </motion.div>
             ))}
           </div>
