@@ -384,72 +384,96 @@ function CreateSectionDialog({
         <DialogHeader>
           <DialogTitle className="text-lg sm:text-xl">Create Custom Home Section</DialogTitle>
           <DialogDescription className="text-sm sm:text-base">
-            Design a custom section to showcase products in unique layouts
+            Design a custom section to showcase products in unique layouts. For the Royal Secondary Home Page, configure title, subtitle, and description to customize how sections appear.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="title" className="font-medium text-gray-700" style={{ fontFamily: 'Cormorant Garamond, serif' }}>Section Title *</Label>
-              <Input
-                id="title"
-                value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                placeholder="e.g., Diamond Jewellery"
-                required
-                data-testid="input-section-title"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="layoutType" className="font-medium text-gray-700" style={{ fontFamily: 'Cormorant Garamond, serif' }}>Layout Type *</Label>
-              <Select
-                value={formData.layoutType}
-                onValueChange={(value: 'grid' | 'featured' | 'mixed' | 'split' | 'festival' | 'carousel' | 'mosaic' | 'luxury' | 'magazine' | 'diamond' | 'floating' | 'radial' | 'artistic' | 'royal' | 'new-arrivals' | 'premium' | 'curved-grid') => 
-                  setFormData(prev => ({ ...prev, layoutType: value }))
-                }
-              >
-                <SelectTrigger data-testid="select-layout-type">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="grid">Grid Layout</SelectItem>
-                  <SelectItem value="featured">Featured Layout</SelectItem>
-                  <SelectItem value="mixed">Mixed Layout</SelectItem>
-                  <SelectItem value="festival">Festival Banner (Image + Products)</SelectItem>
-                  <SelectItem value="carousel">🎠 Carousel - Elegant Sliding Showcase</SelectItem>
-                  <SelectItem value="mosaic">🎨 Mosaic - Pinterest Style Masonry</SelectItem>
-                  <SelectItem value="magazine">📖 Magazine - Editorial Layout</SelectItem>
-                  <SelectItem value="royal">👑 Royal - Majestic Palace Layout</SelectItem>
-                  <SelectItem value="new-arrivals">✨ New Arrivals - Auto-scrolling Showcase</SelectItem>
-                  <SelectItem value="premium">👑 Premium - Ultra-Luxury Elite Showcase</SelectItem>
-                  <SelectItem value="zen">🧘 Zen - Minimalist Floating Cards</SelectItem>
-                  <SelectItem value="curved-grid">🌊 3D Grid - Elegant 3D Product Showcase</SelectItem>
-                  <SelectItem value="tilted-grid">🎯 Tilted Grid - 1x5 Desktop Layout with 30° Tilted Sides</SelectItem>
-                </SelectContent>
-              </Select>
+          {/* Royal Page Customization Section */}
+          <div className="bg-gradient-to-r from-amber-50 to-yellow-50 p-4 rounded-lg border border-amber-200">
+            <h4 className="font-semibold text-amber-800 mb-3 flex items-center" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+              👑 Royal Secondary Home Page Customization
+            </h4>
+            <p className="text-sm text-amber-700 mb-4">
+              These fields control how your section appears on the elegant Royal Secondary Home Page. Customize the title, subtitle, and description to create a stunning presentation.
+            </p>
+            
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="title" className="font-medium text-amber-800" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  Section Title *
+                  <span className="text-xs font-normal text-amber-600 ml-2">(Appears as main heading)</span>
+                </Label>
+                <Input
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  placeholder="e.g., Royal Diamond Collection, Bridal Treasures, Heritage Gems"
+                  required
+                  data-testid="input-section-title"
+                  className="border-amber-300 focus:border-amber-500"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="subtitle" className="font-medium text-amber-800" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  Section Subtitle
+                  <span className="text-xs font-normal text-amber-600 ml-2">(Appears below the main title)</span>
+                </Label>
+                <Input
+                  id="subtitle"
+                  value={formData.subtitle}
+                  onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))}
+                  placeholder="e.g., Exquisite craftsmanship for royal occasions"
+                  data-testid="input-section-subtitle"
+                  className="border-amber-300 focus:border-amber-500"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description" className="font-medium text-amber-800" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  Section Description
+                  <span className="text-xs font-normal text-amber-600 ml-2">(Detailed description for the section)</span>
+                </Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  placeholder="e.g., Discover our handpicked collection of premium jewelry, each piece crafted with unparalleled attention to detail and designed to make every moment extraordinary"
+                  data-testid="textarea-section-description"
+                  rows={3}
+                  className="border-amber-300 focus:border-amber-500"
+                />
+              </div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="subtitle" className="font-medium text-gray-700" style={{ fontFamily: 'Cormorant Garamond, serif' }}>Subtitle</Label>
-            <Input
-              id="subtitle"
-              value={formData.subtitle}
-              onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))}
-              placeholder="e.g., Sparkle through the events with timeless diamonds"
-              data-testid="input-section-subtitle"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description" className="font-medium text-gray-700" style={{ fontFamily: 'Cormorant Garamond, serif' }}>Description</Label>
-            <Textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              placeholder="Optional description for the section"
-              data-testid="textarea-section-description"
-            />
+            <Label htmlFor="layoutType" className="font-medium text-gray-700" style={{ fontFamily: 'Cormorant Garamond, serif' }}>Layout Type *</Label>
+            <Select
+              value={formData.layoutType}
+              onValueChange={(value: 'grid' | 'featured' | 'mixed' | 'split' | 'festival' | 'carousel' | 'mosaic' | 'luxury' | 'magazine' | 'diamond' | 'floating' | 'radial' | 'artistic' | 'royal' | 'new-arrivals' | 'premium' | 'curved-grid') => 
+                setFormData(prev => ({ ...prev, layoutType: value }))
+              }
+            >
+              <SelectTrigger data-testid="select-layout-type">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="grid">Grid Layout</SelectItem>
+                <SelectItem value="featured">Featured Layout</SelectItem>
+                <SelectItem value="mixed">Mixed Layout</SelectItem>
+                <SelectItem value="festival">Festival Banner (Image + Products)</SelectItem>
+                <SelectItem value="carousel">🎠 Carousel - Elegant Sliding Showcase</SelectItem>
+                <SelectItem value="mosaic">🎨 Mosaic - Pinterest Style Masonry</SelectItem>
+                <SelectItem value="magazine">📖 Magazine - Editorial Layout</SelectItem>
+                <SelectItem value="royal">👑 Royal - Majestic Palace Layout</SelectItem>
+                <SelectItem value="new-arrivals">✨ New Arrivals - Auto-scrolling Showcase</SelectItem>
+                <SelectItem value="premium">👑 Premium - Ultra-Luxury Elite Showcase</SelectItem>
+                <SelectItem value="zen">🧘 Zen - Minimalist Floating Cards</SelectItem>
+                <SelectItem value="curved-grid">🌊 3D Grid - Elegant 3D Product Showcase</SelectItem>
+                <SelectItem value="tilted-grid">🎯 Tilted Grid - 1x5 Desktop Layout with 30° Tilted Sides</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {formData.layoutType === 'festival' ? (
