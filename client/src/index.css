@@ -5,35 +5,83 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Variables for Modern Luxury Theme */
+:root {
+  --background: hsl(0, 0%, 98%);
+  --foreground: hsl(20, 14.3%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 15%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 15%);
+  --primary: hsl(27, 90%, 40%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(35, 15%, 92%);
+  --secondary-foreground: hsl(20, 14.3%, 15%);
+  --muted: hsl(35, 12%, 95%);
+  --muted-foreground: hsl(25, 8%, 45%);
+  --accent: hsl(35, 30%, 88%);
+  --accent-foreground: hsl(20, 14.3%, 15%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(35, 20%, 88%);
+  --input: hsl(35, 20%, 88%);
+  --ring: hsl(27, 90%, 40%);
+  --radius: 0.75rem;
+  
+  /* Luxury Jewelry Theme Colors */
+  --gold: hsl(45, 70%, 55%);
+  --gold-light: hsl(48, 85%, 75%);
+  --gold-dark: hsl(42, 65%, 35%);
+  --rose-gold: hsl(15, 60%, 60%);
+  --warm-white: hsl(35, 20%, 98%);
+  --cream: hsl(35, 25%, 95%);
+  --warm-gray: hsl(30, 8%, 50%);
+  --charcoal: hsl(20, 14.3%, 15%);
+  
+  /* Elegant Shadows */
+  --elegant-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --elegant-shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+  --elegant-shadow-xl: 0 12px 60px rgba(0, 0, 0, 0.15);
+  --luxury-glow: 0 0 30px rgba(218, 165, 32, 0.15);
+}
+
+.dark {
+  --background: hsl(20, 14.3%, 4.1%);
+  --foreground: hsl(0, 0%, 95%);
+  --card: hsl(20, 14.3%, 6%);
+  --card-foreground: hsl(0, 0%, 95%);
+  --popover: hsl(20, 14.3%, 6%);
+  --popover-foreground: hsl(0, 0%, 95%);
+  --primary: hsl(27, 90%, 50%);
+  --primary-foreground: hsl(20, 14.3%, 4.1%);
+  --secondary: hsl(20, 14.3%, 10%);
+  --secondary-foreground: hsl(0, 0%, 95%);
+  --muted: hsl(20, 14.3%, 10%);
+  --muted-foreground: hsl(25, 8%, 65%);
+  --accent: hsl(20, 14.3%, 10%);
+  --accent-foreground: hsl(0, 0%, 95%);
+  --destructive: hsl(0, 62.8%, 50%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --border: hsl(20, 14.3%, 15%);
+  --input: hsl(20, 14.3%, 15%);
+  --ring: hsl(27, 90%, 50%);
+}
+
 /* Remove all text shadows globally */
 * {
   text-shadow: none !important;
 }
 
-/* REVOLUTIONARY ARCHITECTURAL LAYOUTS - COMPLETELY NEW APPROACH */
+/* MODERN LUXURY JEWELRY LAYOUTS */
 @layer components {
-  /* ROYAL LAYOUT: Hexagonal Luxury Matrix */
-  .royal-jewel-garden {
+  /* ELEGANT HERO SECTION */
+  .luxury-hero-section {
     background: 
-      linear-gradient(45deg, #1a1a2e 0%, #16213e 20%, #0f3460 40%, #533483 60%, #7209b7 80%, #a663cc 100%),
-      radial-gradient(circle at 30% 20%, rgba(255, 107, 107, 0.4) 0%, transparent 50%),
-      radial-gradient(circle at 70% 80%, rgba(255, 159, 67, 0.3) 0%, transparent 50%),
-      conic-gradient(from 45deg at 50% 50%, #1a1a2e, #533483, #7209b7, #1a1a2e);
-    position: relative;
-    overflow: hidden;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 4rem 2rem;
-  }
-  
-  /* ZEN LAYOUT: Organic Flow Architecture */
-  .zen-floating-sanctuary {
-    background: 
-      linear-gradient(135deg, #667eea 0%, #764ba2 30%, #667eea 60%, #764ba2 100%),
-      radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.1) 0%, transparent 70%),
-      radial-gradient(ellipse at bottom right, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
+      linear-gradient(135deg, 
+        var(--warm-white) 0%, 
+        var(--cream) 50%, 
+        hsl(35, 20%, 96%) 100%
+      );
     position: relative;
     overflow: hidden;
     min-height: 100vh;
@@ -41,40 +89,67 @@
     align-items: center;
     padding: 3rem 2rem;
   }
+  
+  .luxury-hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+      radial-gradient(circle at 30% 30%, rgba(218, 165, 32, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(184, 134, 11, 0.05) 0%, transparent 50%);
+    animation: gentleFloat 20s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  /* CLEAN PRODUCT SECTION */
+  .modern-product-section {
+    background: var(--background);
+    padding: 4rem 2rem;
+    position: relative;
+  }
+  
+  /* ELEGANT FEATURE SECTION */
+  .feature-showcase {
+    background: 
+      linear-gradient(180deg, 
+        var(--background) 0%, 
+        var(--muted) 100%
+      );
+    padding: 5rem 2rem;
+    position: relative;
+  }
 }
 
-/* REVOLUTIONARY ANIMATIONS */
-@keyframes royalSpiral {
-  0% {
-    transform: rotate(0deg) translateX(0px) rotate(0deg);
-    opacity: 0;
-  }
-  100% {
-    transform: rotate(360deg) translateX(50px) rotate(-360deg);
-    opacity: 1;
-  }
-}
-
-@keyframes royalFloat3D {
+/* MODERN ELEGANT ANIMATIONS */
+@keyframes gentleFloat {
   0%, 100% {
-    transform: translateY(0px) rotateY(0deg) scale(1);
-  }
-  33% {
-    transform: translateY(-15px) rotateY(5deg) scale(1.02);
-  }
-  66% {
-    transform: translateY(-5px) rotateY(-5deg) scale(0.98);
-  }
-}
-
-@keyframes zenFloatGentle {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(0px) rotate(0deg);
   }
   50% {
-    transform: translateY(-12px) scale(1.01);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softGlow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
@@ -588,30 +663,38 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-/* ENHANCED PRODUCT CARD VISIBILITY */
+/* MODERN PRODUCT CARDS */
+.modern-product-card {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius);
+  box-shadow: var(--elegant-shadow);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(0);
+}
+
+.modern-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--elegant-shadow-lg);
+  border-color: var(--gold);
+}
+
+/* Enhanced Glass Effect for Modern Theme */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.15),
-    0 4px 20px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--elegant-shadow);
+  backdrop-filter: blur(8px);
 }
 
 .card-hover {
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translateY(0px) scale(1);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(0);
 }
 
 .card-hover:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.2),
-    0 8px 30px rgba(0, 0, 0, 0.15),
-    inset 0 2px 0 rgba(255, 255, 255, 0.95);
-  background: rgba(255, 255, 255, 0.98) !important;
-  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  transform: translateY(-4px);
+  box-shadow: var(--elegant-shadow-lg);
 }
 
 /* RESPONSIVE ARCHITECTURAL BREAKPOINTS */
