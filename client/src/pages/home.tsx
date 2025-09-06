@@ -20,6 +20,12 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 import ringsImage from '@assets/new_rings.png';
+import { 
+  CountdownTimer, 
+  OfferBanner, 
+  SeasonalCollection, 
+  FestivalOffers 
+} from '@/components/festival-components';
 
 interface HomeSectionWithItems extends HomeSection {
   items: HomeSectionItemWithProduct[];
@@ -3250,6 +3256,42 @@ export default function Home() {
                 </section>
               )}
             </section>
+          );
+        }
+
+        // Festival Specials layout - New layout with countdown timers, special offers, and seasonal collections
+        if (section.layoutType === 'festival-specials') {
+          return (
+            <div key={section.id} data-testid={`section-${section.title.toLowerCase().replace(/\s+/g, '-')}`}>
+              {/* Festival Specials Header */}
+              <section className="py-16 px-4 text-center" style={{ background: 'linear-gradient(135deg, #f8f4f0 0%, #e8ddd4 50%, #d4c5a9 100%)' }}>
+                <h2 className="text-4xl md:text-5xl font-light text-gray-800 mb-4 tracking-wide" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+                  {section.title || 'Festival Specials'}
+                </h2>
+                {section.subtitle && (
+                  <p className="text-xl md:text-2xl font-light text-gray-600 mb-6">
+                    {section.subtitle}
+                  </p>
+                )}
+                {section.description && (
+                  <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                    {section.description}
+                  </p>
+                )}
+              </section>
+
+              {/* Countdown Timer Component */}
+              <CountdownTimer />
+
+              {/* Offer Banner Component */}
+              <OfferBanner />
+
+              {/* Seasonal Collection Component */}
+              <SeasonalCollection products={section.items.map(item => item.product)} selectedCurrency={selectedCurrency} />
+
+              {/* Festival Offers Component */}
+              <FestivalOffers products={section.items.map(item => item.product)} selectedCurrency={selectedCurrency} />
+            </div>
           );
         }
 

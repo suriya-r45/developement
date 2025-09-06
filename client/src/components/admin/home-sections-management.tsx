@@ -451,7 +451,7 @@ function CreateSectionDialog({
             <Label htmlFor="layoutType" className="font-medium text-gray-700" style={{ fontFamily: 'Cormorant Garamond, serif' }}>Layout Type *</Label>
             <Select
               value={formData.layoutType}
-              onValueChange={(value: 'grid' | 'featured' | 'mixed' | 'split' | 'festival' | 'carousel' | 'mosaic' | 'luxury' | 'magazine' | 'diamond' | 'floating' | 'radial' | 'artistic' | 'royal' | 'new-arrivals' | 'premium' | 'curved-grid') => 
+              onValueChange={(value: 'grid' | 'featured' | 'mixed' | 'split' | 'festival' | 'festival-specials' | 'carousel' | 'mosaic' | 'luxury' | 'magazine' | 'diamond' | 'floating' | 'radial' | 'artistic' | 'royal' | 'new-arrivals' | 'premium' | 'curved-grid' | 'tilted-grid') => 
                 setFormData(prev => ({ ...prev, layoutType: value }))
               }
             >
@@ -463,6 +463,7 @@ function CreateSectionDialog({
                 <SelectItem value="featured">Featured Layout</SelectItem>
                 <SelectItem value="mixed">Mixed Layout</SelectItem>
                 <SelectItem value="festival">Festival Banner (Image + Products)</SelectItem>
+                <SelectItem value="festival-specials">🎊 Festival Specials - Countdown & Offers</SelectItem>
                 <SelectItem value="carousel">🎠 Carousel - Elegant Sliding Showcase</SelectItem>
                 <SelectItem value="mosaic">🎨 Mosaic - Pinterest Style Masonry</SelectItem>
                 <SelectItem value="magazine">📖 Magazine - Editorial Layout</SelectItem>
