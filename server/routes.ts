@@ -571,6 +571,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update product status fields (Admin only)
+  app.patch("/api/products/:id", authenticateToken, requireAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { isActive, isFeatured } = req.body;
+
+      // Prepare update data with only the fields that are provided
+      const updateData: any = {};
+      if (typeof isActive === 'boolean') {
+        updateData.isActive = isActive;
+      }
+      if (typeof isFeatured === 'boolean') {
+        updateData.isFeatured = isFeatured;
+      }
+
+      // Check if any valid fields were provided
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({ error: 'No valid fields provided for update' });
+      }
+
+      const product = await storage.updateProduct(id, updateData);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      res.json(product);
+    } catch (error) {
+      console.error("Product status update error:", error);
+      res.status(500).json({ message: "Failed to update product status" });
+    }
+  });
+
   // Update product price (Admin only)
   app.patch("/api/products/:id/price", authenticateToken, requireAdmin, async (req, res) => {
     try {

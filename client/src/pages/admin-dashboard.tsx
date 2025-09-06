@@ -37,7 +37,7 @@ function ProductManagementDialog({ products, onClose }: { products: Product[], o
   // Mutation to update product active status
   const updateActiveStatusMutation = useMutation({
     mutationFn: async ({ productId, isActive }: { productId: string; isActive: boolean }) => {
-      const response = await apiRequest('PUT', `/api/products/${productId}`, {
+      const response = await apiRequest('PATCH', `/api/products/${productId}`, {
         isActive
       });
       return response.json();
@@ -60,7 +60,7 @@ function ProductManagementDialog({ products, onClose }: { products: Product[], o
   // Mutation to update product featured status (Secondary Home Page)
   const updateFeaturedStatusMutation = useMutation({
     mutationFn: async ({ productId, isFeatured }: { productId: string; isFeatured: boolean }) => {
-      const response = await apiRequest('PUT', `/api/products/${productId}`, {
+      const response = await apiRequest('PATCH', `/api/products/${productId}`, {
         isFeatured
       });
       return response.json();
@@ -191,10 +191,14 @@ function ProductManagementDialog({ products, onClose }: { products: Product[], o
                         <Button
                           variant={product.isActive ? "default" : "secondary"}
                           size="sm"
-                          onClick={() => updateActiveStatusMutation.mutate({ 
-                            productId: product.id, 
-                            isActive: !product.isActive 
-                          })}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            updateActiveStatusMutation.mutate({ 
+                              productId: product.id, 
+                              isActive: !product.isActive 
+                            });
+                          }}
                           disabled={updateActiveStatusMutation.isPending}
                           className={`h-8 px-3 ${product.isActive ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 hover:bg-gray-500'}`}
                           data-testid={`button-toggle-active-${product.id}`}
@@ -209,10 +213,14 @@ function ProductManagementDialog({ products, onClose }: { products: Product[], o
                         <Button
                           variant={product.isFeatured ? "default" : "secondary"}
                           size="sm"
-                          onClick={() => updateFeaturedStatusMutation.mutate({ 
-                            productId: product.id, 
-                            isFeatured: !product.isFeatured 
-                          })}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            updateFeaturedStatusMutation.mutate({ 
+                              productId: product.id, 
+                              isFeatured: !product.isFeatured 
+                            });
+                          }}
                           disabled={updateFeaturedStatusMutation.isPending}
                           className={`h-8 px-3 ${product.isFeatured ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-400 hover:bg-gray-500'}`}
                           data-testid={`button-toggle-featured-${product.id}`}
