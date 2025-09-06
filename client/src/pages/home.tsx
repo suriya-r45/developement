@@ -104,13 +104,13 @@ function JewelrySlider() {
   }, [jewelryImages.length]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{perspective: '1000px'}}>
       {/* Premium Background with Glass Morphism */}
       <div className="absolute inset-0">
         {/* Gradient Layers */}
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/15 via-purple-800/25 to-yellow-700/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/30 via-transparent to-yellow-600/10"></div>
-        <div className="absolute inset-0 bg-gradient-radial from-transparent via-purple-500/5 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/50 to-black/25"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-transparent via-black/10 to-transparent"></div>
         
         {/* Floating Luxury Elements */}
         <div className="absolute inset-0">
@@ -137,7 +137,7 @@ function JewelrySlider() {
             >
               <div 
                 className="w-2 h-2 rounded-full shadow-lg" 
-                style={{background: i % 2 === 0 ? '#D4AF37' : 'rgba(147, 51, 234, 0.6)'}} 
+                style={{background: i % 3 === 0 ? '#00f5ff' : i % 3 === 1 ? '#ff006e' : '#8338ec'}} 
               />
             </motion.div>
           ))}
@@ -145,43 +145,68 @@ function JewelrySlider() {
 
         {/* Premium Light Rays */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-1/4 w-px h-full transform -skew-x-12" style={{background: 'linear-gradient(to bottom, rgba(212, 175, 55, 0.3), transparent)'}}></div>
-          <div className="absolute top-0 right-1/4 w-px h-full transform skew-x-12" style={{background: 'linear-gradient(to bottom, rgba(147, 51, 234, 0.3), transparent)'}}></div>
+          <div className="absolute top-0 left-1/4 w-px h-full transform -skew-x-12" style={{background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent)'}}></div>
+          <div className="absolute top-0 right-1/4 w-px h-full transform skew-x-12" style={{background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent)'}}></div>
+          <div className="absolute top-0 right-1/3 w-px h-full transform -skew-x-6" style={{background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent)'}}></div>
         </div>
       </div>
 
       {/* Main Slider Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 py-12">
+      <motion.div 
+        className="relative z-10 w-full max-w-7xl mx-auto px-4 py-12"
+        initial={{ rotateX: 15, opacity: 0 }}
+        animate={{ rotateX: 0, opacity: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        style={{ transformStyle: 'preserve-3d' }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Text Content */}
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
+            initial={{ opacity: 0, x: -50, rotateY: -30, z: -100 }}
+            animate={{ opacity: 1, x: 0, rotateY: 0, z: 0 }}
+            exit={{ opacity: 0, x: 50, rotateY: 30, z: -100 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
             className="text-center lg:text-left"
+            style={{ transformStyle: 'preserve-3d' }}
           >
-            {/* Crown Icon with Glow */}
+            {/* Crown Icon with 3D Glow */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 1.2 }}
+              initial={{ scale: 0, rotate: -180, rotateX: -90 }}
+              animate={{ 
+                scale: 1, 
+                rotate: 0,
+                rotateX: 0,
+                rotateY: [0, 10, -10, 0]
+              }}
+              transition={{ 
+                duration: 1.5,
+                rotateY: {
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
               className="relative mb-8 flex justify-center lg:justify-start"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="absolute inset-0 rounded-full blur-xl scale-150" style={{background: 'rgba(212, 175, 55, 0.4)'}}></div>
-              <Crown className="relative h-16 w-16 filter drop-shadow-2xl" style={{color: '#D4AF37'}} />
+              <div className="absolute inset-0 rounded-full blur-xl scale-150" style={{background: 'rgba(0, 0, 0, 0.5)'}}></div>
+              <Crown className="relative h-16 w-16 filter drop-shadow-2xl" style={{color: '#ffffff'}} />
             </motion.div>
 
             <motion.h1 
               className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
-              style={{ fontFamily: 'Cormorant Garamond, serif' }}
+              style={{ fontFamily: 'Cormorant Garamond, serif', transformStyle: 'preserve-3d' }}
+              initial={{ z: -50 }}
+              animate={{ z: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
             >
               <span className="relative">
-                <span className="absolute inset-0 blur-sm" style={{background: 'linear-gradient(to right, #D4AF37, #F4E185, #D4AF37)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>
+                <span className="absolute inset-0 blur-sm" style={{background: 'linear-gradient(to right, #ffffff, #ffffff, #ffffff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>
                   {jewelryImages[currentSlide].title}
                 </span>
-                <span className="relative" style={{background: 'linear-gradient(to right, #D4AF37, #F4E185, #D4AF37)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: '0 0 30px rgba(212, 175, 55, 0.5)'}}>
+                <span className="relative" style={{background: 'linear-gradient(to right, #ffffff, #ffffff, #ffffff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textShadow: '0 0 30px rgba(255, 255, 255, 1)'}}>
                   {jewelryImages[currentSlide].title}
                 </span>
               </span>
@@ -189,16 +214,32 @@ function JewelrySlider() {
 
             <motion.p 
               className="text-lg sm:text-2xl mb-8 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed"
-              style={{color: '#D4AF37', fontFamily: 'Cormorant Garamond, serif', textShadow: '0 0 20px rgba(212, 175, 55, 0.3)'}}
+              style={{color: '#ffffff', fontFamily: 'Cormorant Garamond, serif', textShadow: '0 0 20px rgba(255, 255, 255, 1)', transformStyle: 'preserve-3d'}}
+              initial={{ z: -30, opacity: 0 }}
+              animate={{ z: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.6 }}
             >
               {jewelryImages[currentSlide].description}
             </motion.p>
 
             {/* Premium Action Button */}
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div 
+              whileHover={{ 
+                scale: 1.05, 
+                rotateY: 5, 
+                z: 20,
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)'
+              }} 
+              whileTap={{ 
+                scale: 0.95,
+                rotateY: -5,
+                z: -10
+              }}
+              style={{ transformStyle: 'preserve-3d' }}
+            >
               <Button 
                 className="group relative overflow-hidden text-white font-semibold px-8 py-4 text-lg rounded-full shadow-2xl backdrop-blur-sm"
-                style={{background: 'linear-gradient(45deg, #D4AF37, #F4E185, #D4AF37)', border: '2px solid rgba(212, 175, 55, 0.8)', boxShadow: '0 8px 32px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'}}
+                style={{background: 'linear-gradient(45deg, #ffffff, #ffffff, #ffffff)', border: '2px solid rgba(255, 255, 255, 1)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 1)', color: '#000000'}}
                 onClick={() => window.location.href = '/collections'}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
@@ -209,13 +250,19 @@ function JewelrySlider() {
           </motion.div>
 
           {/* Image Slider */}
-          <div className="relative">
+          <motion.div 
+            className="relative"
+            initial={{ rotateY: 30, z: -100 }}
+            animate={{ rotateY: 0, z: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            style={{ transformStyle: 'preserve-3d' }}
+          >
             <motion.div
               className="relative w-full h-96 lg:h-[500px] rounded-2xl overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(44, 0, 75, 0.2))',
-                border: '2px solid rgba(212, 175, 55, 0.3)',
-                boxShadow: '0 20px 60px rgba(44, 0, 75, 0.4), inset 0 1px 0 rgba(212, 175, 55, 0.2)'
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.1))',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
               }}
             >
               <AnimatePresence mode="wait">
@@ -232,26 +279,51 @@ function JewelrySlider() {
               </AnimatePresence>
               
               {/* Elegant overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 via-transparent to-yellow-600/10 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/10 pointer-events-none"></div>
             </motion.div>
 
             {/* Slide Indicators */}
-            <div className="flex justify-center mt-6 space-x-3">
+            <motion.div 
+              className="flex justify-center mt-6 space-x-3"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 1 }}
+            >
               {jewelryImages.map((_, index) => (
-                <button
+                <motion.button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className="w-3 h-3 rounded-full transition-all duration-300"
+                  className="w-3 h-3 rounded-full"
                   style={{
-                    background: index === currentSlide ? '#D4AF37' : 'rgba(212, 175, 55, 0.3)',
-                    boxShadow: index === currentSlide ? '0 0 10px rgba(212, 175, 55, 0.5)' : 'none'
+                    background: index === currentSlide ? '#ffffff' : 'rgba(255, 255, 255, 0.6)',
+                    boxShadow: index === currentSlide ? '0 0 15px rgba(255, 255, 255, 1)' : 'none'
+                  }}
+                  whileHover={{
+                    scale: 1.5,
+                    z: 10,
+                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.6)'
+                  }}
+                  whileTap={{
+                    scale: 0.8,
+                    z: -5
+                  }}
+                  animate={{
+                    rotateZ: index === currentSlide ? [0, 360] : 0
+                  }}
+                  transition={{
+                    rotateZ: {
+                      duration: 2,
+                      ease: "linear",
+                      repeat: index === currentSlide ? Infinity : 0
+                    },
+                    scale: { duration: 0.2 }
                   }}
                 />
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
@@ -294,17 +366,17 @@ function RoyalSecondaryHomePage({
     <div className="min-h-screen relative overflow-hidden" 
          style={{
            background: `
-             radial-gradient(ellipse at top, rgba(212, 175, 55, 0.2) 0%, transparent 60%),
-             radial-gradient(ellipse at bottom right, rgba(212, 175, 55, 0.15) 0%, transparent 40%),
-             radial-gradient(ellipse at bottom left, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
-             linear-gradient(135deg, #2C004B 0%, #3d1a5b 20%, #2C004B 40%, #4a1f75 60%, #2C004B 80%, #3d1a5b 100%)
+             radial-gradient(ellipse at top, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 60%),
+             radial-gradient(ellipse at bottom right, rgba(255, 255, 255, 0.8) 0%, rgba(241, 245, 249, 0.7) 40%),
+             radial-gradient(ellipse at bottom left, rgba(248, 250, 252, 0.9) 0%, rgba(255, 255, 255, 0.8) 50%),
+             linear-gradient(135deg, #f8fafc 0%, #ffffff 20%, #f1f5f9 40%, #ffffff 60%, #f8fafc 80%, #ffffff 100%)
            `
          }}>
       {/* Animated Background Patterns */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" 
              style={{
-               backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.4'%3E%3Ccircle cx='60' cy='60' r='2'/%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='100' cy='40' r='1.5'/%3E%3Ccircle cx='30' cy='100' r='1'/%3E%3Ccircle cx='90' cy='90' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+               backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.05'%3E%3Ccircle cx='60' cy='60' r='2'/%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3Ccircle cx='100' cy='40' r='1.5'/%3E%3Ccircle cx='30' cy='100' r='1'/%3E%3Ccircle cx='90' cy='90' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                animation: 'float 20s ease-in-out infinite'
              }} />
       </div>
@@ -329,14 +401,14 @@ function RoyalSecondaryHomePage({
           <section key={section.id} className="relative py-24 overflow-hidden">
             {/* Section Background with Glass Morphism */}
             <div className="absolute inset-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-amber-50/80 to-yellow-100/60 backdrop-blur-sm"></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-amber-100/20 via-transparent to-white/10"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-gray-50/90 to-slate-50/85 backdrop-blur-sm"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-100/30 via-transparent to-white/20"></div>
               
               {/* Elegant Geometric Patterns */}
               <div className="absolute inset-0 opacity-5">
                 <div className="absolute inset-0" 
                      style={{
-                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d97706' fill-opacity='0.4'%3E%3Cpolygon points='50,0 60,40 100,50 60,60 50,100 40,60 0,50 40,40'/%3E%3C/g%3E%3C/svg%3E")`,
+                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='0.08'%3E%3Cpolygon points='50,0 60,40 100,50 60,60 50,100 40,60 0,50 40,40'/%3E%3C/g%3E%3C/svg%3E")`,
                      }} />
               </div>
             </div>
@@ -356,7 +428,7 @@ function RoyalSecondaryHomePage({
                     initial={{ width: 0 }}
                     whileInView={{ width: 60 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"
+                    className="h-px bg-gradient-to-r from-transparent via-black to-transparent"
                   />
                   <motion.div
                     initial={{ scale: 0, rotate: -90 }}
@@ -371,7 +443,7 @@ function RoyalSecondaryHomePage({
                     initial={{ width: 0 }}
                     whileInView={{ width: 60 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"
+                    className="h-px bg-gradient-to-r from-transparent via-black to-transparent"
                   />
                 </div>
 
