@@ -192,7 +192,7 @@ function JewelrySlider() {
               style={{ transformStyle: 'preserve-3d' }}
             >
               <div className="absolute inset-0 rounded-full blur-xl scale-150" style={{background: 'rgba(0, 0, 0, 0.5)'}}></div>
-              <Crown className="relative h-16 w-16 filter drop-shadow-2xl" style={{color: '#ffffff'}} />
+              <Crown className="relative h-16 w-16" style={{color: '#ffffff'}} />
             </motion.div>
 
             <motion.h1 
@@ -614,7 +614,7 @@ function RoyalSecondaryHomePage({
               className="relative mb-12"
             >
               <div className="absolute inset-0 bg-yellow-400/40 rounded-full blur-2xl scale-200"></div>
-              <Crown className="relative h-24 w-24 mx-auto text-yellow-400 filter drop-shadow-2xl" />
+              <Crown className="relative h-24 w-24 mx-auto text-yellow-400" />
             </motion.div>
 
             {/* Premium Title */}
@@ -2897,7 +2897,7 @@ export default function Home() {
                     <div className="text-center mb-8">
                       {/* Main Heading */}
                       <h2 
-                        className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-3 leading-tight tracking-wide drop-shadow-lg"
+                        className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-3 leading-tight tracking-wide"
                         style={{ fontFamily: 'Cormorant Garamond, serif' }}
                       >
                         {section.title}
@@ -2906,7 +2906,7 @@ export default function Home() {
                       {/* Italic subtitle */}
                       {section.subtitle && (
                         <p 
-                          className="text-2xl md:text-3xl text-white/90 italic mb-6 font-light drop-shadow-md"
+                          className="text-2xl md:text-3xl text-white/90 italic mb-6 font-light"
                           style={{ fontFamily: 'Cormorant Garamond, serif' }}
                         >
                           {section.subtitle}
@@ -2915,7 +2915,7 @@ export default function Home() {
                       
                       {/* Description */}
                       {section.description && (
-                        <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-8 max-w-lg mx-auto drop-shadow-sm">
+                        <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-8 max-w-lg mx-auto">
                           {section.description}
                         </p>
                       )}
