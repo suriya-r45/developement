@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useAuth } from '@/lib/auth';
 import Header from '@/components/header';
 import ProductForm from '@/components/admin/product-form';
@@ -21,10 +22,216 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { Product, Bill } from '@shared/schema';
 import { Currency } from '@/lib/currency';
-import { Package, FileText, TrendingUp, Users, Calculator, DollarSign, Edit, QrCode, Printer, Search, CheckSquare, Square, Plus, Receipt, History, ClipboardList, Tag, BarChart3, Grid3X3, Film, Settings, Crown } from 'lucide-react';
+import { Package, FileText, TrendingUp, Users, Calculator, DollarSign, Edit, QrCode, Printer, Search, CheckSquare, Square, Plus, Receipt, History, ClipboardList, Tag, BarChart3, Grid3X3, Film, Settings, Crown, Eye, EyeOff, Star, StarOff, X } from 'lucide-react';
 import BarcodeDisplay from '@/components/barcode-display';
 import { useToast } from '@/hooks/use-toast';
 import QRCode from 'qrcode';
+
+// Product Management Dialog Component
+function ProductManagementDialog({ products, onClose }: { products: Product[], onClose: () => void }) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { token } = useAuth();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Mutation to update product active status
+  const updateActiveStatusMutation = useMutation({
+    mutationFn: async ({ productId, isActive }: { productId: string; isActive: boolean }) => {
+      const response = await apiRequest('PUT', `/api/products/${productId}`, {
+        isActive
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      toast({ 
+        title: "Success", 
+        description: "Product status updated successfully" 
+      });
+    },
+    onError: () => {
+      toast({ 
+        title: "Error", 
+        description: "Failed to update product status" 
+      });
+    }
+  });
+
+  // Mutation to update product featured status (Secondary Home Page)
+  const updateFeaturedStatusMutation = useMutation({
+    mutationFn: async ({ productId, isFeatured }: { productId: string; isFeatured: boolean }) => {
+      const response = await apiRequest('PUT', `/api/products/${productId}`, {
+        isFeatured
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      toast({ 
+        title: "Success", 
+        description: "Secondary home page status updated successfully" 
+      });
+    },
+    onError: () => {
+      toast({ 
+        title: "Error", 
+        description: "Failed to update secondary home page status" 
+      });
+    }
+  });
+
+  const filteredProducts = products.filter(product => 
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.productCode?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto" data-testid="dialog-product-management">
+      <DialogHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <DialogTitle className="text-2xl font-bold text-gray-900" style={{ fontFamily: 'Cormorant Garamond, serif' }}>
+              Product Management
+            </DialogTitle>
+            <DialogDescription className="text-gray-600 mt-1">
+              Manage product visibility and secondary home page display
+            </DialogDescription>
+          </div>
+          <Button variant="ghost" size="sm" onClick={onClose} data-testid="button-close-dialog">
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      </DialogHeader>
+
+      <div className="space-y-6">
+        {/* Search */}
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <input
+            type="text"
+            placeholder="Search by product name or code..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            data-testid="input-search-products"
+          />
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Card className="bg-blue-50 border-blue-200">
+            <CardContent className="p-4">
+              <div className="text-center">
+                <p className="text-sm text-blue-600 font-medium">Total Products</p>
+                <p className="text-2xl font-bold text-blue-800">{products.length}</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-green-50 border-green-200">
+            <CardContent className="p-4">
+              <div className="text-center">
+                <p className="text-sm text-green-600 font-medium">Active Products</p>
+                <p className="text-2xl font-bold text-green-800">{products.filter(p => p.isActive).length}</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-purple-50 border-purple-200">
+            <CardContent className="p-4">
+              <div className="text-center">
+                <p className="text-sm text-purple-600 font-medium">On Secondary Home</p>
+                <p className="text-2xl font-bold text-purple-800">{products.filter(p => p.isFeatured).length}</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Product List */}
+        <div className="space-y-3">
+          {filteredProducts.length === 0 ? (
+            <div className="text-center py-8 text-gray-500" data-testid="message-no-products">
+              {searchTerm ? 'No products found matching your search.' : 'No products available.'}
+            </div>
+          ) : (
+            filteredProducts.map((product) => (
+              <Card key={product.id} className="bg-white border border-gray-200 hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    {/* Product Info */}
+                    <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium mb-1">PRODUCT CODE</p>
+                        <p className="text-sm font-semibold text-gray-900" data-testid={`product-code-${product.id}`}>
+                          {product.productCode || 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium mb-1">PRODUCT NAME</p>
+                        <p className="text-sm font-semibold text-gray-900" data-testid={`product-name-${product.id}`}>
+                          {product.name}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium mb-1">STOCK</p>
+                        <p className={`text-sm font-semibold ${product.stock > 5 ? 'text-green-600' : product.stock > 0 ? 'text-yellow-600' : 'text-red-600'}`} data-testid={`product-stock-${product.id}`}>
+                          {product.stock} units
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium mb-1">PRICE</p>
+                        <p className="text-sm font-semibold text-gray-900" data-testid={`product-price-${product.id}`}>
+                          ₹{parseInt(product.priceInr).toLocaleString('en-IN')}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-3 lg:gap-2">
+                      {/* Active/Inactive Toggle */}
+                      <div className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg">
+                        <Button
+                          variant={product.isActive ? "default" : "secondary"}
+                          size="sm"
+                          onClick={() => updateActiveStatusMutation.mutate({ 
+                            productId: product.id, 
+                            isActive: !product.isActive 
+                          })}
+                          disabled={updateActiveStatusMutation.isPending}
+                          className={`h-8 px-3 ${product.isActive ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 hover:bg-gray-500'}`}
+                          data-testid={`button-toggle-active-${product.id}`}
+                        >
+                          {product.isActive ? <Eye className="h-3 w-3 mr-1" /> : <EyeOff className="h-3 w-3 mr-1" />}
+                          {product.isActive ? 'Active' : 'Inactive'}
+                        </Button>
+                      </div>
+
+                      {/* Secondary Home Page Toggle */}
+                      <div className="flex items-center gap-2 px-3 py-2 bg-purple-50 rounded-lg">
+                        <Button
+                          variant={product.isFeatured ? "default" : "secondary"}
+                          size="sm"
+                          onClick={() => updateFeaturedStatusMutation.mutate({ 
+                            productId: product.id, 
+                            isFeatured: !product.isFeatured 
+                          })}
+                          disabled={updateFeaturedStatusMutation.isPending}
+                          className={`h-8 px-3 ${product.isFeatured ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-400 hover:bg-gray-500'}`}
+                          data-testid={`button-toggle-featured-${product.id}`}
+                        >
+                          {product.isFeatured ? <Star className="h-3 w-3 mr-1" /> : <StarOff className="h-3 w-3 mr-1" />}
+                          {product.isFeatured ? 'On Royal Page' : 'Add to Royal Page'}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
+      </div>
+    </DialogContent>
+  );
+}
 
 function SecondaryHomePageToggle() {
   const { toast } = useToast();
@@ -144,6 +351,7 @@ export default function AdminDashboard() {
   const [productSearchTerm, setProductSearchTerm] = useState('');
   const [billSearchTerm, setBillSearchTerm] = useState('');
   const [selectedProducts, setSelectedProducts] = useState<Set<string>>(new Set());
+  const [isProductManagementOpen, setIsProductManagementOpen] = useState(false);
 
   // Helper functions for product selection
   const handleProductSelect = (productId: string) => {
@@ -404,7 +612,11 @@ export default function AdminDashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-          <Card data-testid="card-total-products" className="bg-white shadow-lg border border-gray-300 hover:shadow-xl transition-all duration-300 rounded-xl">
+          <Card 
+            data-testid="card-total-products" 
+            className="bg-white shadow-lg border border-gray-300 hover:shadow-xl transition-all duration-300 rounded-xl cursor-pointer transform hover:scale-105"
+            onClick={() => setIsProductManagementOpen(true)}
+          >
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -414,7 +626,11 @@ export default function AdminDashboard() {
                   <div className="ml-3 md:ml-4">
                     <p className="text-xs md:text-sm font-medium text-gray-700" style={{ fontFamily: 'Cormorant Garamond, serif' }}>Total Products</p>
                     <p className="text-xl md:text-2xl font-semibold text-gray-900" style={{ fontFamily: 'Cormorant Garamond, serif' }}>{totalProducts}</p>
+                    <p className="text-xs text-blue-600 font-medium mt-1">Click to manage</p>
                   </div>
+                </div>
+                <div className="text-blue-400">
+                  <Eye className="h-5 w-5" />
                 </div>
               </div>
             </CardContent>
@@ -881,6 +1097,14 @@ export default function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Product Management Dialog */}
+      <Dialog open={isProductManagementOpen} onOpenChange={setIsProductManagementOpen}>
+        <ProductManagementDialog 
+          products={products} 
+          onClose={() => setIsProductManagementOpen(false)} 
+        />
+      </Dialog>
 
       {/* Bill Preview Modal */}
       {selectedBill && (
