@@ -363,15 +363,7 @@ function RoyalSecondaryHomePage({
   );
 
   return (
-    <div className="min-h-screen relative overflow-hidden" 
-         style={{
-           background: `
-             radial-gradient(ellipse at top, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 60%),
-             radial-gradient(ellipse at bottom right, rgba(255, 255, 255, 0.8) 0%, rgba(241, 245, 249, 0.7) 40%),
-             radial-gradient(ellipse at bottom left, rgba(248, 250, 252, 0.9) 0%, rgba(255, 255, 255, 0.8) 50%),
-             linear-gradient(135deg, #f8fafc 0%, #ffffff 20%, #f1f5f9 40%, #ffffff 60%, #f8fafc 80%, #ffffff 100%)
-           `
-         }}>
+    <div className="min-h-screen relative overflow-hidden bg-black">
       {/* Animated Background Patterns */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" 
@@ -399,10 +391,9 @@ function RoyalSecondaryHomePage({
 
         return (
           <section key={section.id} className="relative py-24 overflow-hidden">
-            {/* Section Background with Glass Morphism */}
+            {/* Section Background with Royal Black */}
             <div className="absolute inset-0">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-gray-50/90 to-slate-50/85 backdrop-blur-sm"></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-100/30 via-transparent to-white/20"></div>
+              <div className="absolute inset-0 bg-black"></div>
               
               {/* Elegant Geometric Patterns */}
               <div className="absolute inset-0 opacity-5">
@@ -428,7 +419,7 @@ function RoyalSecondaryHomePage({
                     initial={{ width: 0 }}
                     whileInView={{ width: 60 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="h-px bg-gradient-to-r from-transparent via-black to-transparent"
+                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"
                   />
                   <motion.div
                     initial={{ scale: 0, rotate: -90 }}
@@ -436,14 +427,13 @@ function RoyalSecondaryHomePage({
                     transition={{ duration: 0.8, delay: 0.5 }}
                     className="mx-6 relative"
                   >
-                    <div className="absolute inset-0 bg-amber-400/30 rounded-full blur-lg scale-150"></div>
-                    <Crown className="relative h-16 w-16 text-amber-600 filter drop-shadow-lg" />
+                    <Crown className="relative h-16 w-16 text-amber-600" />
                   </motion.div>
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: 60 }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="h-px bg-gradient-to-r from-transparent via-black to-transparent"
+                    className="h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"
                   />
                 </div>
 
@@ -500,7 +490,7 @@ function RoyalSecondaryHomePage({
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-400 rounded-3xl opacity-0 group-hover:opacity-20 blur transition-all duration-500"></div>
                     
                     {/* Product Card Container */}
-                    <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-amber-200/50 overflow-hidden group-hover:border-amber-400/60 transition-all duration-500">
+                    <div className="relative bg-black/90 backdrop-blur-sm rounded-3xl shadow-xl border border-amber-200/50 overflow-hidden group-hover:border-amber-400/60 transition-all duration-500">
                       <ProductCard
                         product={product}
                         currency={selectedCurrency}
