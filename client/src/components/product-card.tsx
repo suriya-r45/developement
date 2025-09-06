@@ -28,7 +28,8 @@ export default function ProductCard({ product, currency, showActions = true, cus
   const isInCartAlready = isInCart(product.id);
   const cartQuantity = getItemQuantity(product.id);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     if (product.stock <= 0) {
       toast({
         title: "Out of Stock",
@@ -54,7 +55,8 @@ export default function ProductCard({ product, currency, showActions = true, cus
     });
   };
 
-  const handleShare = async () => {
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (navigator.share) {
       try {
         await navigator.share({
@@ -79,7 +81,8 @@ export default function ProductCard({ product, currency, showActions = true, cus
     });
   };
 
-  const handleWhatsAppInquiry = () => {
+  const handleWhatsAppInquiry = (e: React.MouseEvent) => {
+    e.stopPropagation();
     const message = `Hi! I'm interested in this product:
     
 *${product.name}*
@@ -131,7 +134,10 @@ Could you please provide more details?`;
           className={`absolute top-2 right-2 h-8 w-8 rounded-full bg-white/80 backdrop-blur-sm transition-colors ${
             isLiked ? 'text-red-500' : 'text-gray-600 hover:text-red-500'
           }`}
-          onClick={() => setIsLiked(!isLiked)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsLiked(!isLiked);
+          }}
           data-testid={`button-wishlist-${product.id}`}
         >
           <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
@@ -227,7 +233,10 @@ Could you please provide more details?`;
                 variant="outline"
                 size="sm"
                 className="flex-1"
-                onClick={() => setLocation(`/product/${product.id}`)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLocation(`/product/${product.id}`);
+                }}
                 data-testid={`button-view-product-${product.id}`}
               >
                 <Eye className="h-4 w-4 mr-1" />
