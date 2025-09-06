@@ -5,6 +5,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove all text shadows globally */
+* {
+  text-shadow: none !important;
+}
+
 /* REVOLUTIONARY ARCHITECTURAL LAYOUTS - COMPLETELY NEW APPROACH */
 @layer components {
   /* ROYAL LAYOUT: Hexagonal Luxury Matrix */
